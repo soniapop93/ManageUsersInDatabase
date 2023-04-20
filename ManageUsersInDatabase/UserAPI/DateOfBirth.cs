@@ -9,6 +9,6 @@ namespace ManageUsersInDatabase.UserAPI
     public class DateOfBirth
     {
         public string date { get; set; }
-        public string age { get; set; }
+        public int age { get; set; }
     }
 }

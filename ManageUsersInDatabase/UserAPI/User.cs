@@ -9,10 +9,8 @@ namespace ManageUsersInDatabase.UserAPI
     public class User
     {
         public Name name { get; set; }
-
         public Location location { get; set; }
         public string email { get; set; }
-
         public Login login { get; set; }
         public DateOfBirth dob { get; set; }
         public Registered registered { get; set; }
