@@ -1,4 +1,5 @@
-﻿using ManageUsersInDatabase.UserAPI;
+﻿using ManageUsersInDatabase.Database;
+using ManageUsersInDatabase.UserAPI;
 using System.Net;
 
 public class Program
@@ -17,9 +18,14 @@ public class Program
 
         Console.WriteLine("------------------------ SCRIPT STARTED ------------------------");
 
-        RequestUser requestUser = new RequestUser();
-        string response = requestUser.getNewUserFromAPI("https://randomuser.me/api/");
-        User user = requestUser.parseInfoUser(response);
+        //RequestUser requestUser = new RequestUser();
+        //string response = requestUser.getNewUserFromAPI("https://randomuser.me/api/");
+        //User user = requestUser.parseInfoUser(response);
+
+        CreateDB createDB = new CreateDB();
+        createDB.generateDB("C:\\Users\\" + System.Environment.UserName + "\\Desktop", "testdb");
+
+
 
         //try
         //{
