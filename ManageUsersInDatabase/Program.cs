@@ -22,8 +22,8 @@ public class Program
         //string response = requestUser.getNewUserFromAPI("https://randomuser.me/api/");
         //User user = requestUser.parseInfoUser(response);
 
-        CreateDB createDB = new CreateDB();
-        createDB.generateDB("C:\\Users\\" + System.Environment.UserName + "\\Desktop", "testdb");
+        DatabaseManager databaseManager = new DatabaseManager();
+        databaseManager.generateDB("C:\\Users\\" + System.Environment.UserName + "\\Desktop", "testdb");
 
 
 
