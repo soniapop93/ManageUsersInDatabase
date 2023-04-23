@@ -10,7 +10,7 @@ namespace ManageUsersInDatabase.Database
 {
     public class DatabaseManager
     {
-        public void generateDB(string path, string fileName)
+        public SQLiteConnection generateDB(string path, string fileName)
         {
             string fileNamePath = path + @"\" + fileName + ".db";
 
@@ -18,7 +18,10 @@ namespace ManageUsersInDatabase.Database
 
             Console.WriteLine("Database is created successfully");
             CreateTable(sqLiteConnection);
-            
+
+            return sqLiteConnection;
+
+
         }
 
         public SQLiteConnection createConnection(string fileNamePath)
@@ -68,7 +71,7 @@ namespace ManageUsersInDatabase.Database
                 "id_value TEXT, " +
                 "picture_large TEXT, " +
                 "picture_medium TEXT, " +
-                "picture thumbnail TEXT, " +
+                "picture_thumbnail TEXT, " +
                 "nationality TEXT)";
             sqLiteCommand = sqLiteConnection.CreateCommand();
             sqLiteCommand.CommandText = createSQL;
@@ -86,8 +89,8 @@ namespace ManageUsersInDatabase.Database
             sqLiteCommand = sqLiteConnection.CreateCommand();
 
             string strData = "INSERT INTO Users " +
-                "title_name," +
-                "first_name," +
+                "(title_name, " +
+                "first_name, " +
                 "last_name, " +
                 "location_street_number, " +
                 "location_street_name, " +
@@ -117,13 +120,47 @@ namespace ManageUsersInDatabase.Database
                 "id_value, " +
                 "picture_large, " +
                 "picture_medium, " +
-                "picture thumbnail, " +
+                "picture_thumbnail, " +
                 "nationality) " +
                 "VALUES " +
-                "(" + user.name.title + user.name.firstName + user.name.lastName")";
+                "('" +
+                user.name.title + "','"  +
+                user.name.firstName + "','" +
+                user.name.lastName + "'," +
+                user.location.street.number + ",'" +
+                user.location.street.name + "','" +
+                user.location.city + "','" +
+                user.location.state + "','" +
+                user.location.country + "'," +
+                user.location.postcode + ",'" +
+                user.location.coordinates.latitude + "','" +
+                user.location.coordinates.longitude + "','" +
+                user.location.timezone.offset + "','" +
+                user.location.timezone.description + "','" +
+                user.email + "','" +
+                user.login.uuid + "','" +
+                user.login.username + "','" +
+                user.login.password + "','" +
+                user.login.salt + "','" +
+                user.login.md5 + "','" +
+                user.login.sha1 + "','" +
+                user.login.sha256 + "','" +
+                user.dob.date + "'," +
+                user.dob.age + ",'" +
+                user.registered.date + "'," +
+                user.registered.age + ",'" +
+                user.phone + "','" +
+                user.cell + "','" +
+                user.id.name + "','" +
+                user.id.value + "','" +
+                user.picture.large + "','" +
+                user.picture.medium + "','" +
+                user.picture.thumbnail + "','" +
+                user.nat +"');";
 
 
-            //sqLiteCommand.CommandText = 
+            sqLiteCommand.CommandText = strData;
+            sqLiteCommand.ExecuteNonQuery();
         }
     }
 }

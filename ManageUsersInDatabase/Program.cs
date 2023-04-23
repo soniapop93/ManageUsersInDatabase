@@ -1,5 +1,6 @@
 ﻿using ManageUsersInDatabase.Database;
 using ManageUsersInDatabase.UserAPI;
+using System.Data.SQLite;
 using System.Net;
 
 public class Program
@@ -18,14 +19,15 @@ public class Program
 
         Console.WriteLine("------------------------ SCRIPT STARTED ------------------------");
 
-        //RequestUser requestUser = new RequestUser();
-        //string response = requestUser.getNewUserFromAPI("https://randomuser.me/api/");
-        //User user = requestUser.parseInfoUser(response);
+        RequestUser requestUser = new RequestUser();
+        string response = requestUser.getNewUserFromAPI("https://randomuser.me/api/");
+        User user = requestUser.parseInfoUser(response);
 
         DatabaseManager databaseManager = new DatabaseManager();
-        databaseManager.generateDB("C:\\Users\\" + System.Environment.UserName + "\\Desktop", "testdb");
 
+        SQLiteConnection sqLiteConnection = databaseManager.generateDB("C:\\Users\\" + System.Environment.UserName + "\\Desktop", "testdb");
 
+        databaseManager.insertData(sqLiteConnection, user);
 
         //try
         //{
