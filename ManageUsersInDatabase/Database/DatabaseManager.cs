@@ -120,7 +120,7 @@ namespace ManageUsersInDatabase.Database
                 "picture thumbnail, " +
                 "nationality) " +
                 "VALUES " +
-                "(" + user.name.title + ")";
+                "(" + user.name.title + user.name.firstName + user.name.lastName")";
 
 
             //sqLiteCommand.CommandText = 
