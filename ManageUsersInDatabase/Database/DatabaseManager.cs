@@ -13,12 +13,13 @@ namespace ManageUsersInDatabase.Database
         public SQLiteConnection generateDB(string path, string fileName)
         {
             string fileNamePath = path + @"\" + fileName + ".db";
-
             SQLiteConnection sqLiteConnection = createConnection(fileNamePath);
 
-            Console.WriteLine("Database is created successfully");
-            CreateTable(sqLiteConnection);
-
+            if (!checkIfDBExist(path, fileName))
+            {
+                Console.WriteLine("Database is created successfully");
+                CreateTable(sqLiteConnection);
+            }
             return sqLiteConnection;
 
 
@@ -161,6 +162,15 @@ namespace ManageUsersInDatabase.Database
 
             sqLiteCommand.CommandText = strData;
             sqLiteCommand.ExecuteNonQuery();
+        }
+
+        public bool checkIfDBExist(string path, string fileName)
+        {
+            string fileNamePath = path + @"\" + fileName + ".db";
+
+            if (File.Exists(fileNamePath))
+                return true;
+            return false;
         }
     }
 }
