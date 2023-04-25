@@ -25,9 +25,13 @@ public class Program
 
         DatabaseManager databaseManager = new DatabaseManager();
 
-        SQLiteConnection sqLiteConnection = databaseManager.generateDB("C:\\Users\\" + System.Environment.UserName + "\\Desktop", "testdb");
+        SQLiteConnection sqLiteConnection = databaseManager.generateDB("C:\\Users\\" + System.Environment.UserName + "\\Desktop", "usersDB");
 
         databaseManager.insertData(sqLiteConnection, user);
+
+        SQLiteDataReader test =  databaseManager.getAllUsers(sqLiteConnection);
+        databaseManager.displayAllUsers(test);
+        
 
         //try
         //{

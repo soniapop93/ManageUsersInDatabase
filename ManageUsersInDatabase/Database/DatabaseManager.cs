@@ -15,11 +15,9 @@ namespace ManageUsersInDatabase.Database
             string fileNamePath = path + @"\" + fileName + ".db";
             SQLiteConnection sqLiteConnection = createConnection(fileNamePath);
 
-            if (!checkIfDBExist(path, fileName))
-            {
-                Console.WriteLine("Database is created successfully");
-                CreateTable(sqLiteConnection);
-            }
+            Console.WriteLine("Database is created successfully");
+            CreateTable(sqLiteConnection);
+            
             return sqLiteConnection;
 
 
@@ -40,7 +38,7 @@ namespace ManageUsersInDatabase.Database
         public void CreateTable(SQLiteConnection sqLiteConnection)
         {
             SQLiteCommand sqLiteCommand;
-            string createSQL = "CREATE TABLE Users " +
+            string createSQL = "CREATE TABLE IF NOT EXISTS Users " +
                 "(title_name TEXT," +
                 "first_name TEXT," +
                 "last_name TEXT, " +
@@ -49,7 +47,7 @@ namespace ManageUsersInDatabase.Database
                 "city TEXT, " +
                 "state TEXT, " +
                 "country TEXT, " +
-                "postcode INT, " +
+                "postcode TEXT, " +
                 "latitude TEXT, " +
                 "longitude TEXT, " +
                 "timezone_offset TEXT, " +
@@ -132,8 +130,8 @@ namespace ManageUsersInDatabase.Database
                 user.location.street.name + "','" +
                 user.location.city + "','" +
                 user.location.state + "','" +
-                user.location.country + "'," +
-                user.location.postcode + ",'" +
+                user.location.country + "','" +
+                user.location.postcode.ToString() + "','" +
                 user.location.coordinates.latitude + "','" +
                 user.location.coordinates.longitude + "','" +
                 user.location.timezone.offset + "','" +
@@ -152,8 +150,8 @@ namespace ManageUsersInDatabase.Database
                 user.registered.age + ",'" +
                 user.phone + "','" +
                 user.cell + "','" +
-                user.id.name + "','" +
-                user.id.value + "','" +
+                (string.IsNullOrEmpty(user.id.name) ? "-" : user.id.name) + "','" +
+                (string.IsNullOrEmpty(user.id.value) ? "-" : user.id.value) + "','" +
                 user.picture.large + "','" +
                 user.picture.medium + "','" +
                 user.picture.thumbnail + "','" +
@@ -164,13 +162,33 @@ namespace ManageUsersInDatabase.Database
             sqLiteCommand.ExecuteNonQuery();
         }
 
-        public bool checkIfDBExist(string path, string fileName)
+        public SQLiteDataReader getAllUsers(SQLiteConnection sqLiteConnection)
         {
-            string fileNamePath = path + @"\" + fileName + ".db";
+            SQLiteCommand sqLiteCommand;
+            sqLiteCommand = sqLiteConnection.CreateCommand();
 
-            if (File.Exists(fileNamePath))
-                return true;
-            return false;
+            string strData = "SELECT * FROM Users;";
+            sqLiteCommand.CommandText = strData;
+            SQLiteDataReader allDBdata = sqLiteCommand.ExecuteReader();
+
+            return allDBdata;
+        }
+
+        public void displayAllUsers(SQLiteDataReader allDBdata)
+        {
+            List<string> resultUsers = new List<string>();
+
+           // allDBdata.
+            while(allDBdata.Read())
+            {
+                for (int i = 0; i < allDBdata.FieldCount; i++)
+                {
+                    Console.WriteLine(allDBdata.GetName(i) + " --> " + allDBdata[i]);
+                }
+                Console.WriteLine("----------------------------------------------------");
+            }
+
+            //return resultUsers;
         }
     }
 }
