@@ -15,8 +15,6 @@ namespace ManageUsersInDatabase.UserAPI
         {
             JsonObject jObjectResponse = (JsonObject)JsonObject.Parse(response);
 
-            
-
             User user = JsonSerializer.Deserialize<User>(jObjectResponse["results"][0]);
 
             return user;

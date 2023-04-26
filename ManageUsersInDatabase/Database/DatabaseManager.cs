@@ -197,7 +197,7 @@ namespace ManageUsersInDatabase.Database
             SQLiteCommand sqLiteCommand;
             sqLiteCommand = sqLiteConnection.CreateCommand();
 
-            string strData = "SELECT * FROM Users WHERE first_name = " + name + " OR last_name = " + name + ";";
+            string strData = "SELECT * FROM Users WHERE first_name = '" + name + "' OR last_name = '" + name + "';";
             sqLiteCommand.CommandText = strData;
             SQLiteDataReader allDBdata = sqLiteCommand.ExecuteReader();
 
@@ -221,7 +221,7 @@ namespace ManageUsersInDatabase.Database
             SQLiteCommand sqLiteCommand;
             sqLiteCommand = sqLiteConnection.CreateCommand();
 
-            string strData = "DElETE FROM Users WHERE first_name = " + first_name + " AND last_name = " + last_name + ";";
+            string strData = "DElETE FROM Users WHERE first_name = '" + first_name + "' AND last_name = '" + last_name + "';";
             sqLiteCommand.CommandText = strData;
             SQLiteDataReader allDBdata = sqLiteCommand.ExecuteReader();
 
