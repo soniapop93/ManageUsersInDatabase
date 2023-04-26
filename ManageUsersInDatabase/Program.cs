@@ -30,8 +30,8 @@ public class Program
         databaseManager.insertData(sqLiteConnection, user);
 
         SQLiteDataReader test =  databaseManager.getAllUsers(sqLiteConnection);
-        databaseManager.displayAllUsers(test);
-        
+        //databaseManager.displayAllUsers(test);
+        databaseManager.displaySpecificUserUsingID(sqLiteConnection, 5);
 
         //try
         //{

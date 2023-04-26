@@ -1,10 +1,5 @@
 ﻿using ManageUsersInDatabase.UserAPI;
-using System;
-using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ManageUsersInDatabase.Database
 {
@@ -19,8 +14,6 @@ namespace ManageUsersInDatabase.Database
             CreateTable(sqLiteConnection);
             
             return sqLiteConnection;
-
-
         }
 
         public SQLiteConnection createConnection(string fileNamePath)
@@ -176,19 +169,63 @@ namespace ManageUsersInDatabase.Database
 
         public void displayAllUsers(SQLiteDataReader allDBdata)
         {
-            List<string> resultUsers = new List<string>();
-
-           // allDBdata.
             while(allDBdata.Read())
             {
                 for (int i = 0; i < allDBdata.FieldCount; i++)
                 {
                     Console.WriteLine(allDBdata.GetName(i) + " --> " + allDBdata[i]);
                 }
-                Console.WriteLine("----------------------------------------------------");
+                Console.WriteLine("*******************************************************");
             }
+        }
 
-            //return resultUsers;
+        public void displaySpecificUserUsingID(SQLiteConnection sqLiteConnection, int userID)
+        {
+            SQLiteCommand sqLiteCommand;
+            sqLiteCommand = sqLiteConnection.CreateCommand();
+
+            string strData = "SELECT * FROM Users WHERE ROWID = " + userID.ToString() + ";";
+            sqLiteCommand.CommandText = strData;
+            SQLiteDataReader allDBdata = sqLiteCommand.ExecuteReader();
+
+            displayAllUsers(allDBdata);
+
+        }
+
+        public void displaySpecificUserUsingName(SQLiteConnection sqLiteConnection, string name)
+        {
+            SQLiteCommand sqLiteCommand;
+            sqLiteCommand = sqLiteConnection.CreateCommand();
+
+            string strData = "SELECT * FROM Users WHERE first_name = " + name + " OR last_name = " + name + ";";
+            sqLiteCommand.CommandText = strData;
+            SQLiteDataReader allDBdata = sqLiteCommand.ExecuteReader();
+
+            displayAllUsers(allDBdata);
+        }
+
+        public void deleteSpecifcUserUsingID(SQLiteConnection sqLiteConnection, int userID)
+        {
+            SQLiteCommand sqLiteCommand;
+            sqLiteCommand = sqLiteConnection.CreateCommand();
+
+            string strData = "DELETE FROM Users WHERE ROWID = " + userID.ToString() + ";";
+            sqLiteCommand.CommandText = strData;
+            SQLiteDataReader allDBdata = sqLiteCommand.ExecuteReader();
+
+            Console.WriteLine("User with ID: " + userID + " has been deleted from the database.");
+        }
+
+        public void deleteSpecificUserUsingName(SQLiteConnection sqLiteConnection, string first_name, string last_name)
+        {
+            SQLiteCommand sqLiteCommand;
+            sqLiteCommand = sqLiteConnection.CreateCommand();
+
+            string strData = "DElETE FROM Users WHERE first_name = " + first_name + " AND last_name = " + last_name + ";";
+            sqLiteCommand.CommandText = strData;
+            SQLiteDataReader allDBdata = sqLiteCommand.ExecuteReader();
+
+            Console.WriteLine("User with first name: " + first_name + " and last name: " + last_name + " has been deleteted from the database.");
         }
     }
 }
