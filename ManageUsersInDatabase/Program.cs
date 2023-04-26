@@ -21,7 +21,6 @@ public class Program
 
         // Create DB connection
         DatabaseManager databaseManager = new DatabaseManager();
-        SQLiteConnection sqLiteConnection = databaseManager.generateDB("C:\\Users\\" + System.Environment.UserName + "\\Desktop", "usersDB");
 
         RequestUser requestUser = new RequestUser();
 
@@ -52,8 +51,7 @@ public class Program
                     break;
                 case "1":
                     Console.WriteLine("You have selected option: 1 - Display users");
-                    SQLiteDataReader getDataUsers = databaseManager.getAllUsers(sqLiteConnection);
-                    databaseManager.displayAllUsers(getDataUsers);
+                    databaseManager.displayAllUsers();
                     break;
                 case "2":
                     Console.WriteLine("You have selected option: 2 - Add new user from API");
@@ -61,7 +59,7 @@ public class Program
                     {
                         string response = requestUser.getNewUserFromAPI("https://randomuser.me/api/");
                         User user = requestUser.parseInfoUser(response);
-                        databaseManager.insertData(sqLiteConnection, user);
+                        databaseManager.insertData(user);
                         Console.WriteLine("New User has been added to database");
                     }
                     catch (Exception e)
@@ -75,14 +73,14 @@ public class Program
                     input = userInput.getUserInput();
                     userID = String.IsNullOrEmpty(input) ? 0 : int.Parse(input);
                     if (userID != 0)
-                        databaseManager.displaySpecificUserUsingID(sqLiteConnection, userID);
+                        databaseManager.displaySpecificUserUsingID(userID);
                     break;
                 case "4":
                     Console.WriteLine("You have selected option: 4 - Display specific user based on name");
                     Console.WriteLine("Please enter user name you want to display: ");
                     string name = userInput.getUserInput();
                     if (!string.IsNullOrEmpty(name))
-                        databaseManager.displaySpecificUserUsingName(sqLiteConnection, name);
+                        databaseManager.displaySpecificUserUsingName(name);
                     break;
                 case "5":
                     Console.WriteLine("You have selected option: 5 - Delete user based on user ID");
@@ -90,7 +88,7 @@ public class Program
                     input = userInput.getUserInput();
                     userID = String.IsNullOrEmpty(input) ? 0 : int.Parse(input);
                     if (userID != 0)
-                        databaseManager.deleteSpecifcUserUsingID(sqLiteConnection, userID);
+                        databaseManager.deleteSpecifcUserUsingID(userID);
                     break;
                 case "6":
                     Console.WriteLine("You have selected option: 6 - Delete user based on first and last name");
@@ -102,11 +100,10 @@ public class Program
                     string last_name = userInput.getUserInput();
 
                     if (!string.IsNullOrEmpty(first_name) && !string.IsNullOrEmpty(last_name))
-                        databaseManager.deleteSpecificUserUsingName(sqLiteConnection, first_name, last_name);
+                        databaseManager.deleteSpecificUserUsingName(first_name, last_name);
                     break;
                 case "7":
                     Console.WriteLine("You have selected option: 7 - EXIT");
-                    databaseManager.closeConnection(sqLiteConnection);
                     return;
             }
         }
