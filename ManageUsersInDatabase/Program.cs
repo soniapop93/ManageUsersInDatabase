@@ -1,6 +1,5 @@
 ﻿using ManageUsersInDatabase.Database;
 using ManageUsersInDatabase.UserAPI;
-using System.Data.SQLite;
 using ManageUsersInDatabase.Utilities;
 
 public class Program
